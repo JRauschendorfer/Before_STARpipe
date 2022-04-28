@@ -1,0 +1,37 @@
+####################### Requirement for using STARpipe ###################################
+### These scripts should be used before using running the STARpipe.sh file. They provide 
+### correct annotation files types (GFF3 -> GTF conversion) and an indexed genome file.
+### These scripts should be run from the command line terminal
+
+####################### GFF3 -> GTF conversion ###########################################
+### This step only needs to be run if Annotation files are written in GFF3 format.
+### Notes:
+### 1) Annotation directory -> /data/student/jkrausch/Trial_With_STAR/AnnotationDir
+
+# Directory
+cd /tools/AGAT/
+
+# Terminal command
+agat_convert_sp_gff2gtf.pl \
+--gff /data/student/jkrausch/Trial_With_STAR/AnnotationDir/Qrubra_687_v2.1.gene.gff3 \
+-o /data/student/jkrausch/Trial_With_STAR/AnnotationDir/Qrubra_687_v2.1.gene.gtf
+
+####################### Indexing a genome with STAR ######################################
+### This step is required to run the STARpipe.sh file.
+### Notes:
+### 1) Annotation directory -> /data/student/jkrausch/Trial_With_STAR/AnnotationDir
+### 2) Genome directory -> /data/student/jkrausch/Trial_With_STAR/GenomeDir
+
+# Directory
+cd /tools/Star/STAR-2.7.9a/bin/Linux_x86_64
+
+# Terminal command
+./STAR --runThreadN 12 --runMode genomeGenerate \
+--genomeDir /data/student/jkrausch/Trial_With_STAR/GenomeDir \
+--genomeFastaFiles /data/student/jkrausch/Trial_With_STAR/GenomeDir/Qrubra_687_v2.0.fa \
+--sjdbGTFfile /data/student/jkrausch/Trial_With_STAR/AnnotationDir/Qrubra_687_v2_1_gene_exons.gtf \
+--sjdbGTFtagExonParentTranscript Parent \
+--sjdbOverhang 100 \
+--outFileNamePrefix /data/student/jkrausch/Trial_With_STAR/LogFiles \
+--limitGenomeGenerateRAM 33400641120 \
+--genomeSAindexNbases 13
